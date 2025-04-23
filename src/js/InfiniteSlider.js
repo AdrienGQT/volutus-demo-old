@@ -15,6 +15,7 @@ export class InfiniteSlider {
     this.itemQuantity = 5;
     this.gap = 20;
     this.itemsToUpdate = [];
+    this.lerpFactor = 0.1;
 
     this.animate = this.animate.bind(this);
 
@@ -25,6 +26,7 @@ export class InfiniteSlider {
     this.cacheDOM();
     this.instantiateManagers()
     this.getSizes();
+    this.calculateCenterOffset();
     this.getInitialValue();
     this.editItemTemplate();
     this.removeItemTemplate();
@@ -46,6 +48,11 @@ export class InfiniteSlider {
   getSizes = () => {
     this.itemHeight = this.item.getBoundingClientRect().height;
     this.containerHeight = (this.itemHeight + this.gap) * this.itemQuantity;
+  };
+
+  calculateCenterOffset = () => {
+    this.viewportHeight = window.innerHeight;
+    this.centerOffset = (this.viewportHeight - this.itemHeight) / 2;
   };
 
   getInitialValue = () => {
@@ -76,7 +83,7 @@ export class InfiniteSlider {
 
   updateItems = () => {
     this.itemsToUpdate.forEach((cover, index) => {
-      let basePosition = index * (this.itemHeight + this.gap);
+      let basePosition = index * (this.itemHeight + this.gap) + this.centerOffset;
       let adjustedPosition = -this.initialValue + ((basePosition - this.scrollY) % this.containerHeight);
       
       if (adjustedPosition < -this.initialValue) {
@@ -91,7 +98,6 @@ export class InfiniteSlider {
   };
 
   animate = () => {
-    this.lerpFactor = 0.1;
     this.scrollY += (this.targetScrollY - this.scrollY) * this.lerpFactor;
 
     this.updateItems();
