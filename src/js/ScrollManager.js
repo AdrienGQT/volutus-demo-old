@@ -1,7 +1,7 @@
 export class ScrollManager{
     constructor(infiniteSlider){
         console.log('ScrollManager initialized')
-        
+
         this.infiniteSlider = infiniteSlider
         this.init()
     }
