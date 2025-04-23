@@ -1,10 +1,11 @@
 import { gsap } from "gsap";
 import { ScrollManager } from "./ScrollManager";
+import { DragManager } from "./DragManager";
 
 export class InfiniteSlider {
   constructor() {
     console.log('InfiniteSlider initialized')
-    
+
     // Shared variables
     this.currentItemIndex = 0;
     this.targetScrollY = 0;
@@ -15,8 +16,6 @@ export class InfiniteSlider {
     this.gap = 20;
     this.itemsToUpdate = [];
 
-    new ScrollManager(this);
-
     this.animate = this.animate.bind(this);
 
     this.init();
@@ -24,6 +23,7 @@ export class InfiniteSlider {
 
   init = () => {
     this.cacheDOM();
+    this.instantiateManagers()
     this.getSizes();
     this.getInitialValue();
     this.editItemTemplate();
@@ -38,9 +38,13 @@ export class InfiniteSlider {
     this.item = this.slider.querySelector("#item");
   };
 
+  instantiateManagers = () => {
+    new ScrollManager(this);
+    new DragManager(this)
+  }
+
   getSizes = () => {
     this.itemHeight = this.item.getBoundingClientRect().height;
-    console.log(this.itemHeight);
     this.containerHeight = (this.itemHeight + this.gap) * this.itemQuantity;
   };
 
