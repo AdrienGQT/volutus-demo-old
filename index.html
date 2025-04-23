@@ -1,13 +1,21 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/src/style.css" />
     <title>Infinite smooth snap scroll</title>
   </head>
   <body>
-    <h1>Hello</h1>
+    <div class="app">
+      <div id="slider" class="slider">
+        <!-- Template frame -->
+        <div id="item" class="item">
+          <p id="item-title" class="itemTitle"></p>
+        </div>
+      </div>
+    </div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
