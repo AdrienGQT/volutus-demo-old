@@ -6,16 +6,17 @@ export class InfiniteSlider {
   constructor() {
     console.log('InfiniteSlider initialized')
 
-    // Shared variables
-    this.currentItemIndex = 0;
-    this.targetScrollY = 0;
-    this.scrollY = 0;
-
     // Local variables
     this.itemQuantity = 5;
     this.gap = 20;
     this.itemsToUpdate = [];
     this.lerpFactor = 0.1;
+
+    // Shared variables
+    this.currentIndex = 0;
+    this.currentItemIndex = this.currentIndex % this.itemQuantity;
+    this.targetScrollY = 0;
+    this.scrollY = 0;
 
     this.animate = this.animate.bind(this);
 
@@ -101,6 +102,13 @@ export class InfiniteSlider {
     this.scrollY += (this.targetScrollY - this.scrollY) * this.lerpFactor;
 
     this.updateItems();
+    this.computeIndexes()
     requestAnimationFrame(this.animate);
   };
+
+  computeIndexes = () => {
+    this.currentIndex = Math.round(this.scrollY / (this.itemHeight + this.gap)) + 1
+    this.currentItemIndex = ((this.currentIndex % this.itemQuantity) + this.itemQuantity) % this.itemQuantity;
+  }
+
 }
