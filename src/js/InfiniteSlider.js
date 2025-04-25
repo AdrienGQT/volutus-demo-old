@@ -4,13 +4,16 @@ import { DragManager } from "./DragManager";
 import { SnapManager } from "./SnapManager";
 
 export class InfiniteSlider {
-  constructor() {
+  constructor(gui) {
     console.log('InfiniteSlider initialized')
+
+    this.gui = gui
 
     this.itemQuantity = 5;
     this.gap = 20;
     this.itemsToUpdate = [];
     this.lerpFactor = 0.05;
+    this.gui.add(this, 'lerpFactor').min(0.01).max(0.3).step(0.01).name('Lerp factor')
 
     this.currentIndex = 0;
     this.currentItemIndex = this.currentIndex % this.itemQuantity;

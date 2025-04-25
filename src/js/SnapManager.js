@@ -5,6 +5,7 @@ export class SnapManager{
         this.infiniteSlider = infiniteSlider
 
         this.snapStrength = 0.02
+        infiniteSlider.gui.add(this, 'snapStrength').min(0.001).max(0.15).step(0.002).name('Snap strength')
     }
 
     snap = () => {

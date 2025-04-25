@@ -10,6 +10,7 @@ export class DragManager {
     this.slider = infiniteSlider.slider;
 
     this.dragStrength = 0.8;
+    infiniteSlider.gui.add(this, 'dragStrength').min(0.1).max(1.5).step(0.1).name('Drag strength')
 
     this.init();
   }

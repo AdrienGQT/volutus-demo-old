@@ -1,7 +1,9 @@
+import GUI from "lil-gui";
 import { InfiniteSlider } from "./js/InfiniteSlider";
 
 const onLoad = () => {
-  new InfiniteSlider()
+  const gui = new GUI()
+  new InfiniteSlider(gui)
 }
 
 window.addEventListener('DOMContentLoaded', onLoad)
