@@ -3,6 +3,7 @@ export class ScrollManager{
         console.log('ScrollManager initialized')
 
         this.infiniteSlider = infiniteSlider
+        this.scrollStrength = 0.2
         this.init()
     }
     
@@ -12,7 +13,7 @@ export class ScrollManager{
 
     setEventListener = () => {
         window.addEventListener('wheel', (e) => {
-            this.infiniteSlider.targetScrollY = Math.round(this.infiniteSlider.targetScrollY - e.wheelDeltaY * 0.3);
+            this.infiniteSlider.targetScrollY = Math.round(this.infiniteSlider.targetScrollY - e.wheelDeltaY * this.scrollStrength);
         })
     }
 }

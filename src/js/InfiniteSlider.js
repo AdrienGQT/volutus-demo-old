@@ -1,18 +1,17 @@
 import { gsap } from "gsap";
 import { ScrollManager } from "./ScrollManager";
 import { DragManager } from "./DragManager";
+import { SnapManager } from "./SnapManager";
 
 export class InfiniteSlider {
   constructor() {
     console.log('InfiniteSlider initialized')
 
-    // Local variables
     this.itemQuantity = 5;
     this.gap = 20;
     this.itemsToUpdate = [];
-    this.lerpFactor = 0.1;
+    this.lerpFactor = 0.05;
 
-    // Shared variables
     this.currentIndex = 0;
     this.currentItemIndex = this.currentIndex % this.itemQuantity;
     this.targetScrollY = 0;
@@ -43,7 +42,8 @@ export class InfiniteSlider {
 
   instantiateManagers = () => {
     new ScrollManager(this);
-    new DragManager(this)
+    new DragManager(this);
+    this.snapManager = new SnapManager(this)
   }
 
   getSizes = () => {
@@ -103,6 +103,7 @@ export class InfiniteSlider {
 
     this.updateItems();
     this.computeIndexes()
+    this.snapManager.snap()
     requestAnimationFrame(this.animate);
   };
 
