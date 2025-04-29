@@ -94,10 +94,7 @@ export class InfiniteSlider {
         adjustedPosition += this.containerHeight;
       }
 
-      gsap.to(cover, {
-        top: adjustedPosition,
-        duration: 0,
-      });
+      cover.style.top = `${adjustedPosition}px`
     });
   };
 
