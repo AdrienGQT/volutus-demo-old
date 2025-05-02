@@ -16,7 +16,9 @@ export class InfiniteSlider {
     this.gui.add(this, 'lerpFactor').min(0.01).max(0.3).step(0.01).name('Lerp factor')
 
     this.currentIndex = 0;
-    this.currentItemIndex = this.currentIndex % this.itemQuantity;
+    this.currentItemIndex = ((this.currentIndex % this.itemQuantity) + this.itemQuantity) % this.itemQuantity;
+    this.previousItemIndex = (((this.currentIndex - 1) % this.itemQuantity) + this.itemQuantity) % this.itemQuantity
+    this.nextItemIndex = (((this.currentIndex + 1) % this.itemQuantity) + this.itemQuantity) % this.itemQuantity
     this.targetScrollY = 0;
     this.scrollY = 0;
 
@@ -106,12 +108,29 @@ export class InfiniteSlider {
     this.updateItems();
     this.computeIndexes()
     this.snapManager.snap()
+    this.refreshStyle()
     requestAnimationFrame(this.animate);
   };
 
   computeIndexes = () => {
     this.currentIndex = Math.round(this.scrollY / (this.itemHeight + this.gap)) + 1
     this.currentItemIndex = ((this.currentIndex % this.itemQuantity) + this.itemQuantity) % this.itemQuantity;
+    this.previousItemIndex = (((this.currentIndex - 1) % this.itemQuantity) + this.itemQuantity) % this.itemQuantity
+    this.nextItemIndex = (((this.currentIndex + 1) % this.itemQuantity) + this.itemQuantity) % this.itemQuantity
+  }
+
+  refreshStyle = () => {
+    this.removeSelectedStyle()
+    this.applySelectedStyle()
+  }
+
+  applySelectedStyle = () => {
+    this.itemsToUpdate[this.currentItemIndex].classList.add('selected')
+  }
+
+  removeSelectedStyle = () => {
+    this.itemsToUpdate[this.previousItemIndex].classList.remove('selected')
+    this.itemsToUpdate[this.nextItemIndex].classList.remove('selected')
   }
 
 }
