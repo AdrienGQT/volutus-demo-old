@@ -1,6 +1,7 @@
 import { ScrollManager } from "./ScrollManager";
 import { DragManager } from "./DragManager";
 import { SnapManager } from "./SnapManager";
+import { ButtonsManager } from "./ButtonsManager";
 
 export class InfiniteSlider {
   constructor(gui) {
@@ -46,10 +47,12 @@ export class InfiniteSlider {
     new ScrollManager(this);
     new DragManager(this);
     this.snapManager = new SnapManager(this)
+    new ButtonsManager(this)
   }
 
   getSizes = () => {
     this.itemHeight = this.item.getBoundingClientRect().height;
+    this.blockHeight = this.itemHeight + this.gap
     this.containerHeight = (this.itemHeight + this.gap) * this.itemQuantity;
   };
 
