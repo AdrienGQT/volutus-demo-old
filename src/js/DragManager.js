@@ -1,7 +1,3 @@
-import { gsap } from "gsap";
-import { Draggable } from "gsap/Draggable";
-gsap.registerPlugin(Draggable);
-
 export class DragManager {
   constructor(infiniteSlider) {
     console.log("DragManager initialized");
@@ -25,18 +21,28 @@ export class DragManager {
   };
 
   setDraggable = () => {
-    const handleDragReference = this.handleDrag;
+    this.slider.addEventListener('mousedown', () => {
+      this.slider.addEventListener('mousemove', this.handleMouseMove)
+    })
 
-    Draggable.create(this.proxy, {
-      type: "y",
-      trigger: this.slider,
-      onDrag: function () {
-        handleDragReference(this.deltaY);
-      },
-    });
+    this.slider.addEventListener('mouseup', () => {
+      this.slider.removeEventListener('mousemove',this.handleMouseMove)
+    })
+
+    this.setDragCursor()
   };
 
+  setDragCursor = () => {
+    this.slider.style.cursor = "grab"
+  }
+
+  handleMouseMove = (e) => {
+    e.preventDefault
+    this.handleDrag(e.movementY)
+  }
+
   handleDrag = (deltaY) => {
+    console.log(deltaY)
     this.infiniteSlider.targetScrollY = Math.round(
       this.infiniteSlider.targetScrollY - deltaY * this.dragStrength
     );
