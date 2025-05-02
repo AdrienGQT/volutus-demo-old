@@ -1,4 +1,3 @@
-import { gsap } from "gsap";
 import { ScrollManager } from "./ScrollManager";
 import { DragManager } from "./DragManager";
 import { SnapManager } from "./SnapManager";
