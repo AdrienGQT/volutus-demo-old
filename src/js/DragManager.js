@@ -42,7 +42,6 @@ export class DragManager {
   }
 
   handleDrag = (deltaY) => {
-    console.log(deltaY)
     this.infiniteSlider.targetScrollY = Math.round(
       this.infiniteSlider.targetScrollY - deltaY * this.dragStrength
     );
