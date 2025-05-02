@@ -14,9 +14,8 @@ export class SnapManager{
     }
 
     computeSnap = () => {
-        this.blockHeight = this.infiniteSlider.itemHeight + this.infiniteSlider.gap
         this.currentIndex = this.infiniteSlider.currentIndex
-        this.currentItemPosition = (this.currentIndex * this.blockHeight) - this.blockHeight
+        this.currentItemPosition = (this.currentIndex * this.infiniteSlider.blockHeight) - this.infiniteSlider.blockHeight
         this.currentScrollY = this.infiniteSlider.scrollY
         this.deltaToCurrentItemPosition = this.currentScrollY - this.currentItemPosition
         this.currentSnap = this.deltaToCurrentItemPosition * this.snapStrength
