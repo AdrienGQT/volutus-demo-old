@@ -13,14 +13,16 @@ export class DragManager {
 
   init = () => {
     this.createProxy();
-    this.setDraggable();
+    this.setDraggableForDesktop();
+    this.setDraggableForMobile();
+    this.setDragCursor()
   };
 
   createProxy = () => {
     this.proxy = document.createElement("div");
   };
 
-  setDraggable = () => {
+  setDraggableForDesktop = () => {
     this.slider.addEventListener('mousedown', () => {
       this.slider.addEventListener('mousemove', this.handleMouseMove)
     })
@@ -28,12 +30,12 @@ export class DragManager {
     this.slider.addEventListener('mouseup', () => {
       this.slider.removeEventListener('mousemove',this.handleMouseMove)
     })
-
-    this.setDragCursor()
   };
 
-  setDragCursor = () => {
-    this.slider.style.cursor = "grab"
+  setDraggableForMobile = () => {
+    this.slider.addEventListener('touchstart', this.handleTouchStart);
+    this.slider.addEventListener('touchmove', this.handleTouchMove, { passive: false });
+    this.slider.addEventListener('touchend', this.handleTouchEnd);
   }
 
   handleMouseMove = (e) => {
@@ -41,9 +43,33 @@ export class DragManager {
     this.handleDrag(e.movementY)
   }
 
+  handleTouchStart = (e) => {
+    this.touchStartY = e.touches[0].clientY;
+    this.lastTouchY = this.touchStartY;
+  };
+
+  handleTouchMove = (e) => {
+    e.preventDefault();
+    
+    const currentTouchY = e.touches[0].clientY;
+    const deltaY = this.lastTouchY - currentTouchY;
+    this.lastTouchY = currentTouchY;
+    
+    this.handleDrag(-deltaY);
+  };
+
+  handleTouchEnd = () => {
+    this.touchStartY = 0;
+    this.lastTouchY = 0;
+  };
+
   handleDrag = (deltaY) => {
     this.infiniteSlider.targetScrollY = Math.round(
       this.infiniteSlider.targetScrollY - deltaY * this.dragStrength
     );
   };
+
+  setDragCursor = () => {
+    this.slider.style.cursor = "grab"
+  }
 }
