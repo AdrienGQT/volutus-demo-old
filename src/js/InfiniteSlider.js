@@ -1,35 +1,55 @@
-import { ScrollManager } from "./ScrollManager";
-import { DragManager } from "./DragManager";
-import { SnapManager } from "./SnapManager";
-import { ButtonsManager } from "./ButtonsManager";
+import { ScrollManager } from "./Managers/ScrollManager";
+import { DragManager } from "./Managers/DragManager";
+import { SnapManager } from "./Managers/SnapManager";
+import { ButtonsManager } from "./Managers/ButtonsManager";
+import Debug from "./Utils/Debug";
+
+let instance = null;
 
 export class InfiniteSlider {
-  constructor(gui) {
-    console.log('InfiniteSlider initialized')
+  constructor() {
+    if (instance) {
+      return instance;
+    }
 
-    this.gui = gui
+    instance = this;
+
+    this.debug = new Debug();
 
     this.itemQuantity = 5;
     this.gap = 20;
     this.itemsToUpdate = [];
     this.lerpFactor = 0.05;
-    this.gui.add(this, 'lerpFactor').min(0.01).max(0.3).step(0.01).name('Lerp factor')
+    this.debug.ui
+      .add(this, "lerpFactor")
+      .min(0.01)
+      .max(0.3)
+      .step(0.01)
+      .name("Lerp factor");
 
     this.currentIndex = 0;
-    this.currentItemIndex = ((this.currentIndex % this.itemQuantity) + this.itemQuantity) % this.itemQuantity;
-    this.previousItemIndex = (((this.currentIndex - 1) % this.itemQuantity) + this.itemQuantity) % this.itemQuantity
-    this.nextItemIndex = (((this.currentIndex + 1) % this.itemQuantity) + this.itemQuantity) % this.itemQuantity
+    this.currentItemIndex =
+      ((this.currentIndex % this.itemQuantity) + this.itemQuantity) %
+      this.itemQuantity;
+    this.previousItemIndex =
+      (((this.currentIndex - 1) % this.itemQuantity) + this.itemQuantity) %
+      this.itemQuantity;
+    this.nextItemIndex =
+      (((this.currentIndex + 1) % this.itemQuantity) + this.itemQuantity) %
+      this.itemQuantity;
     this.targetScrollY = 0;
     this.scrollY = 0;
 
     this.animate = this.animate.bind(this);
 
     this.init();
+
+    console.log("InfiniteSlider initialized");
   }
 
   init = () => {
     this.cacheDOM();
-    this.instantiateManagers()
+    this.instantiateManagers();
     this.getSizes();
     this.calculateCenterOffset();
     this.getInitialValue();
@@ -46,15 +66,15 @@ export class InfiniteSlider {
   };
 
   instantiateManagers = () => {
-    new ScrollManager(this);
-    new DragManager(this);
-    this.snapManager = new SnapManager(this)
-    new ButtonsManager(this)
-  }
+    this.ScrollManager = new ScrollManager();
+    this.DragManager = new DragManager();
+    this.snapManager = new SnapManager();
+    this.ButtonsManager = new ButtonsManager();
+  };
 
   getSizes = () => {
     this.itemHeight = this.item.getBoundingClientRect().height;
-    this.blockHeight = this.itemHeight + this.gap
+    this.blockHeight = this.itemHeight + this.gap;
     this.containerHeight = (this.itemHeight + this.gap) * this.itemQuantity;
   };
 
@@ -91,14 +111,17 @@ export class InfiniteSlider {
 
   updateItems = () => {
     this.itemsToUpdate.forEach((cover, index) => {
-      let basePosition = index * (this.itemHeight + this.gap) + this.centerOffset;
-      let adjustedPosition = -this.initialValue + ((basePosition - this.scrollY) % this.containerHeight);
-      
+      let basePosition =
+        index * (this.itemHeight + this.gap) + this.centerOffset;
+      let adjustedPosition =
+        -this.initialValue +
+        ((basePosition - this.scrollY) % this.containerHeight);
+
       if (adjustedPosition < -this.initialValue) {
         adjustedPosition += this.containerHeight;
       }
 
-      cover.style.top = `${adjustedPosition}px`
+      cover.style.top = `${adjustedPosition}px`;
     });
   };
 
@@ -106,31 +129,37 @@ export class InfiniteSlider {
     this.scrollY += (this.targetScrollY - this.scrollY) * this.lerpFactor;
 
     this.updateItems();
-    this.computeIndexes()
-    this.snapManager.snap()
-    this.refreshStyle()
+    this.computeIndexes();
+    this.snapManager.snap();
+    this.refreshStyle();
     requestAnimationFrame(this.animate);
   };
 
   computeIndexes = () => {
-    this.currentIndex = Math.round(this.scrollY / (this.itemHeight + this.gap)) + 1
-    this.currentItemIndex = ((this.currentIndex % this.itemQuantity) + this.itemQuantity) % this.itemQuantity;
-    this.previousItemIndex = (((this.currentIndex - 1) % this.itemQuantity) + this.itemQuantity) % this.itemQuantity
-    this.nextItemIndex = (((this.currentIndex + 1) % this.itemQuantity) + this.itemQuantity) % this.itemQuantity
-  }
+    this.currentIndex =
+      Math.round(this.scrollY / (this.itemHeight + this.gap)) + 1;
+    this.currentItemIndex =
+      ((this.currentIndex % this.itemQuantity) + this.itemQuantity) %
+      this.itemQuantity;
+    this.previousItemIndex =
+      (((this.currentIndex - 1) % this.itemQuantity) + this.itemQuantity) %
+      this.itemQuantity;
+    this.nextItemIndex =
+      (((this.currentIndex + 1) % this.itemQuantity) + this.itemQuantity) %
+      this.itemQuantity;
+  };
 
   refreshStyle = () => {
-    this.removeSelectedStyle()
-    this.applySelectedStyle()
-  }
+    this.removeSelectedStyle();
+    this.applySelectedStyle();
+  };
 
   applySelectedStyle = () => {
-    this.itemsToUpdate[this.currentItemIndex].classList.add('selected')
-  }
+    this.itemsToUpdate[this.currentItemIndex].classList.add("selected");
+  };
 
   removeSelectedStyle = () => {
-    this.itemsToUpdate[this.previousItemIndex].classList.remove('selected')
-    this.itemsToUpdate[this.nextItemIndex].classList.remove('selected')
-  }
-
+    this.itemsToUpdate[this.previousItemIndex].classList.remove("selected");
+    this.itemsToUpdate[this.nextItemIndex].classList.remove("selected");
+  };
 }
