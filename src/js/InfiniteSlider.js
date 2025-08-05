@@ -8,7 +8,7 @@ let instance = null;
 
 export class InfiniteSlider {
 
-  constructor(container) {
+  constructor(container, items) {
     if (instance) {
       return instance;
     }
@@ -17,9 +17,11 @@ export class InfiniteSlider {
 
     this.debug = new Debug();
 
-    this.itemQuantity = 5;
+    this.container = container
+    this.items = items
+
+    this.itemQuantity = this.items.length;
     this.gap = 20;
-    this.itemsToUpdate = [];
     this.lerpFactor = 0.05;
     this.debug.ui
       .add(this, "lerpFactor")
@@ -43,28 +45,18 @@ export class InfiniteSlider {
 
     this.animate = this.animate.bind(this);
 
-    this.container = container
     this.init();
 
     console.log("InfiniteSlider initialized");
   }
 
   init = () => {
-    this.cacheDOM();
     this.instantiateManagers();
     this.getSizes();
     this.calculateCenterOffset();
     this.getInitialValue();
-    this.editItemTemplate();
-    this.removeItemTemplate();
-    this.setItems();
     this.updateItems();
     this.animate();
-  };
-
-  cacheDOM = () => {
-    // this.slider = document.querySelector("#slider");
-    this.item = this.container.querySelector("#item");
   };
 
   instantiateManagers = () => {
@@ -75,7 +67,7 @@ export class InfiniteSlider {
   };
 
   getSizes = () => {
-    this.itemHeight = this.item.getBoundingClientRect().height;
+    this.itemHeight = this.items[0].getBoundingClientRect().height;
     this.blockHeight = this.itemHeight + this.gap;
     this.containerHeight = (this.itemHeight + this.gap) * this.itemQuantity;
   };
@@ -89,30 +81,8 @@ export class InfiniteSlider {
     this.initialValue = this.itemHeight + this.gap;
   };
 
-  editItemTemplate = () => {
-    this.item.removeAttribute("id");
-  };
-
-  removeItemTemplate = () => {
-    this.item.remove();
-  };
-
-  setItems = () => {
-    for (let i = 0; i < this.itemQuantity; i++) {
-      const clone = this.item.cloneNode(true);
-      this.editItem(clone, i);
-      this.itemsToUpdate.push(clone);
-      this.container.appendChild(clone);
-    }
-  };
-
-  editItem = (item, index) => {
-    const itemTitle = item.children[0];
-    itemTitle.innerText = `Item ${index}`;
-  };
-
   updateItems = () => {
-    this.itemsToUpdate.forEach((cover, index) => {
+    this.items.forEach((cover, index) => {
       let basePosition =
         index * (this.itemHeight + this.gap) + this.centerOffset;
       let adjustedPosition =
@@ -129,7 +99,6 @@ export class InfiniteSlider {
 
   animate = () => {
     this.scrollY += (this.targetScrollY - this.scrollY) * this.lerpFactor;
-
     this.updateItems();
     this.computeIndexes();
     this.snapManager.snap();
@@ -157,11 +126,11 @@ export class InfiniteSlider {
   };
 
   applySelectedStyle = () => {
-    this.itemsToUpdate[this.currentItemIndex].classList.add("selected");
+    this.items[this.currentItemIndex].classList.add("selected");
   };
 
   removeSelectedStyle = () => {
-    this.itemsToUpdate[this.previousItemIndex].classList.remove("selected");
-    this.itemsToUpdate[this.nextItemIndex].classList.remove("selected");
+    this.items[this.previousItemIndex].classList.remove("selected");
+    this.items[this.nextItemIndex].classList.remove("selected");
   };
 }
