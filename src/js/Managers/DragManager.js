@@ -3,7 +3,6 @@ import { InfiniteSlider } from "../InfiniteSlider";
 export class DragManager {
   constructor() {
     this.infiniteSlider = new InfiniteSlider();
-    this.slider = this.infiniteSlider.slider;
 
     this.dragStrength = 0.8;
     this.infiniteSlider.debug.ui
@@ -30,21 +29,21 @@ export class DragManager {
   };
 
   setDraggableForDesktop = () => {
-    this.slider.addEventListener("mousedown", () => {
-      this.slider.addEventListener("mousemove", this.handleMouseMove);
+    this.infiniteSlider.container.addEventListener("mousedown", () => {
+      this.infiniteSlider.container.addEventListener("mousemove", this.handleMouseMove);
     });
 
-    this.slider.addEventListener("mouseup", () => {
-      this.slider.removeEventListener("mousemove", this.handleMouseMove);
+    this.infiniteSlider.container.addEventListener("mouseup", () => {
+      this.infiniteSlider.container.removeEventListener("mousemove", this.handleMouseMove);
     });
   };
 
   setDraggableForMobile = () => {
-    this.slider.addEventListener("touchstart", this.handleTouchStart);
-    this.slider.addEventListener("touchmove", this.handleTouchMove, {
+    this.infiniteSlider.container.addEventListener("touchstart", this.handleTouchStart);
+    this.infiniteSlider.container.addEventListener("touchmove", this.handleTouchMove, {
       passive: false,
     });
-    this.slider.addEventListener("touchend", this.handleTouchEnd);
+    this.infiniteSlider.container.addEventListener("touchend", this.handleTouchEnd);
   };
 
   handleMouseMove = (e) => {
@@ -79,6 +78,6 @@ export class DragManager {
   };
 
   setDragCursor = () => {
-    this.slider.style.cursor = "grab";
+    this.infiniteSlider.container.style.cursor = "grab";
   };
 }

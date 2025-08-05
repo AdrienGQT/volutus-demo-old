@@ -1,7 +1,9 @@
 import { InfiniteSlider } from "./js/InfiniteSlider";
 
 const onLoad = () => {
-  new InfiniteSlider();
+  const container = document.querySelector('#slider');
+
+  new InfiniteSlider(container);
 };
 
 window.addEventListener("DOMContentLoaded", onLoad);

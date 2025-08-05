@@ -7,7 +7,8 @@ import Debug from "./Utils/Debug";
 let instance = null;
 
 export class InfiniteSlider {
-  constructor() {
+
+  constructor(container) {
     if (instance) {
       return instance;
     }
@@ -42,6 +43,7 @@ export class InfiniteSlider {
 
     this.animate = this.animate.bind(this);
 
+    this.container = container
     this.init();
 
     console.log("InfiniteSlider initialized");
@@ -61,8 +63,8 @@ export class InfiniteSlider {
   };
 
   cacheDOM = () => {
-    this.slider = document.querySelector("#slider");
-    this.item = this.slider.querySelector("#item");
+    // this.slider = document.querySelector("#slider");
+    this.item = this.container.querySelector("#item");
   };
 
   instantiateManagers = () => {
@@ -100,7 +102,7 @@ export class InfiniteSlider {
       const clone = this.item.cloneNode(true);
       this.editItem(clone, i);
       this.itemsToUpdate.push(clone);
-      this.slider.appendChild(clone);
+      this.container.appendChild(clone);
     }
   };
 
