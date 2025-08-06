@@ -1,8 +1,8 @@
-import { InfiniteSlider } from "../InfiniteSlider";
+import { Volutus } from "../Volutus";
 
 export class ButtonsManager {
   constructor() {
-    this.infiniteSlider = new InfiniteSlider();
+    this.volutus = new Volutus();
 
     this.init();
 
@@ -10,17 +10,17 @@ export class ButtonsManager {
   }
 
   init = () => {
-    this.infiniteSlider.debug.ui
+    this.volutus.debug.ui
       .add(this, "previousItem")
       .name("Go to previous");
-    this.infiniteSlider.debug.ui.add(this, "nextItem").name("Go to next");
+    this.volutus.debug.ui.add(this, "nextItem").name("Go to next");
   };
 
   previousItem = () => {
-    this.infiniteSlider.targetScrollY -= this.infiniteSlider.blockHeight;
+    this.volutus.targetScrollY -= this.volutus.blockHeight;
   };
 
   nextItem = () => {
-    this.infiniteSlider.targetScrollY += this.infiniteSlider.blockHeight;
+    this.volutus.targetScrollY += this.volutus.blockHeight;
   };
 }

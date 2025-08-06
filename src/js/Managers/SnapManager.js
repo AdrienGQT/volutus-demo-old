@@ -1,11 +1,11 @@
-import { InfiniteSlider } from "../InfiniteSlider";
+import { Volutus } from "../Volutus";
 
 export class SnapManager {
   constructor() {
-    this.infiniteSlider = new InfiniteSlider();
+    this.volutus = new Volutus();
 
     this.snapStrength = 0.02;
-    this.infiniteSlider.debug.ui
+    this.volutus.debug.ui
       .add(this, "snapStrength")
       .min(0.001)
       .max(0.15)
@@ -21,17 +21,17 @@ export class SnapManager {
   };
 
   computeSnap = () => {
-    this.currentIndex = this.infiniteSlider.currentIndex;
+    this.currentIndex = this.volutus.currentIndex;
     this.currentItemPosition =
-      this.currentIndex * this.infiniteSlider.blockHeight -
-      this.infiniteSlider.blockHeight;
-    this.currentScrollY = this.infiniteSlider.scrollY;
+      this.currentIndex * this.volutus.blockHeight -
+      this.volutus.blockHeight;
+    this.currentScrollY = this.volutus.scrollY;
     this.deltaToCurrentItemPosition =
       this.currentScrollY - this.currentItemPosition;
     this.currentSnap = this.deltaToCurrentItemPosition * this.snapStrength;
   };
 
   applySnap = () => {
-    this.infiniteSlider.targetScrollY -= this.currentSnap;
+    this.volutus.targetScrollY -= this.currentSnap;
   };
 }

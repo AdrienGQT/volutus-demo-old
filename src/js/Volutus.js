@@ -1,4 +1,4 @@
-import '../volutus.css'
+import "../volutus.css";
 import { ScrollManager } from "./Managers/ScrollManager";
 import { DragManager } from "./Managers/DragManager";
 import { SnapManager } from "./Managers/SnapManager";
@@ -7,8 +7,7 @@ import Debug from "./Utils/Debug";
 
 let instance = null;
 
-export class InfiniteSlider {
-
+export class Volutus {
   constructor(container, items) {
     if (instance) {
       return instance;
@@ -18,8 +17,8 @@ export class InfiniteSlider {
 
     this.debug = new Debug();
 
-    this.container = container
-    this.items = items
+    this.container = container;
+    this.items = items;
 
     this.itemQuantity = this.items.length;
     this.gap = 5;
@@ -48,11 +47,11 @@ export class InfiniteSlider {
 
     this.init();
 
-    console.log("InfiniteSlider initialized");
+    console.log("Volutus well initialized");
   }
 
   init = () => {
-    this.applyRequiredStyles()
+    this.applyRequiredStyles();
     this.instantiateManagers();
     this.getSizes();
     this.calculateCenterOffset();
@@ -62,35 +61,36 @@ export class InfiniteSlider {
   };
 
   applyRequiredStyles = () => {
-    this.applyContainerRequiredStyle()
-    this.applyItemsRequiredStyle()
-  }
+    this.applyContainerRequiredStyle();
+    this.applyItemsRequiredStyle();
+  };
 
   applyContainerRequiredStyle = () => {
-    this.container.classList.add('volutusContainer');
-  }
+    this.container.classList.add("volutusContainer");
+  };
 
   applyItemsRequiredStyle = () => {
     this.items.forEach((item) => {
-      item.classList.add('volutusItem');
-    })
-  }
+      item.classList.add("volutusItem");
+    });
+  };
 
   instantiateManagers = () => {
-    this.ScrollManager = new ScrollManager();
-    this.DragManager = new DragManager();
+    this.scrollManager = new ScrollManager();
+    this.dragManager = new DragManager();
     this.snapManager = new SnapManager();
-    this.ButtonsManager = new ButtonsManager();
+    this.buttonsManager = new ButtonsManager();
   };
 
   getSizes = () => {
     this.itemHeight = this.items[0].getBoundingClientRect().height;
     this.blockHeight = this.itemHeight + this.gap;
-    this.sliderBlocksTotalHeight = (this.itemHeight + this.gap) * this.itemQuantity;
+    this.sliderBlocksTotalHeight =
+      (this.itemHeight + this.gap) * this.itemQuantity;
   };
 
   calculateCenterOffset = () => {
-    this.containerHeight = this.container.getBoundingClientRect().height
+    this.containerHeight = this.container.getBoundingClientRect().height;
     this.centerOffset = (this.containerHeight - this.itemHeight) / 2;
   };
 

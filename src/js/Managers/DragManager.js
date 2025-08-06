@@ -1,11 +1,11 @@
-import { InfiniteSlider } from "../InfiniteSlider";
+import { Volutus } from "../Volutus";
 
 export class DragManager {
   constructor() {
-    this.infiniteSlider = new InfiniteSlider();
+    this.volutus = new Volutus();
 
     this.dragStrength = 0.8;
-    this.infiniteSlider.debug.ui
+    this.volutus.debug.ui
       .add(this, "dragStrength")
       .min(0.1)
       .max(1.5)
@@ -29,21 +29,21 @@ export class DragManager {
   };
 
   setDraggableForDesktop = () => {
-    this.infiniteSlider.container.addEventListener("mousedown", () => {
-      this.infiniteSlider.container.addEventListener("mousemove", this.handleMouseMove);
+    this.volutus.container.addEventListener("mousedown", () => {
+      this.volutus.container.addEventListener("mousemove", this.handleMouseMove);
     });
 
-    this.infiniteSlider.container.addEventListener("mouseup", () => {
-      this.infiniteSlider.container.removeEventListener("mousemove", this.handleMouseMove);
+    this.volutus.container.addEventListener("mouseup", () => {
+      this.volutus.container.removeEventListener("mousemove", this.handleMouseMove);
     });
   };
 
   setDraggableForMobile = () => {
-    this.infiniteSlider.container.addEventListener("touchstart", this.handleTouchStart);
-    this.infiniteSlider.container.addEventListener("touchmove", this.handleTouchMove, {
+    this.volutus.container.addEventListener("touchstart", this.handleTouchStart);
+    this.volutus.container.addEventListener("touchmove", this.handleTouchMove, {
       passive: false,
     });
-    this.infiniteSlider.container.addEventListener("touchend", this.handleTouchEnd);
+    this.volutus.container.addEventListener("touchend", this.handleTouchEnd);
   };
 
   handleMouseMove = (e) => {
@@ -72,12 +72,12 @@ export class DragManager {
   };
 
   handleDrag = (deltaY) => {
-    this.infiniteSlider.targetScrollY = Math.round(
-      this.infiniteSlider.targetScrollY - deltaY * this.dragStrength
+    this.volutus.targetScrollY = Math.round(
+      this.volutus.targetScrollY - deltaY * this.dragStrength
     );
   };
 
   setDragCursor = () => {
-    this.infiniteSlider.container.style.cursor = "grab";
+    this.volutus.container.style.cursor = "grab";
   };
 }
