@@ -1,3 +1,4 @@
+import '../volutus.css'
 import { ScrollManager } from "./Managers/ScrollManager";
 import { DragManager } from "./Managers/DragManager";
 import { SnapManager } from "./Managers/SnapManager";
@@ -21,7 +22,7 @@ export class InfiniteSlider {
     this.items = items
 
     this.itemQuantity = this.items.length;
-    this.gap = 20;
+    this.gap = 5;
     this.lerpFactor = 0.05;
     this.debug.ui
       .add(this, "lerpFactor")
@@ -51,6 +52,7 @@ export class InfiniteSlider {
   }
 
   init = () => {
+    this.applyRequiredStyles()
     this.instantiateManagers();
     this.getSizes();
     this.calculateCenterOffset();
@@ -58,6 +60,21 @@ export class InfiniteSlider {
     this.updateItems();
     this.animate();
   };
+
+  applyRequiredStyles = () => {
+    this.applyContainerRequiredStyle()
+    this.applyItemsRequiredStyle()
+  }
+
+  applyContainerRequiredStyle = () => {
+    this.container.classList.add('volutusContainer');
+  }
+
+  applyItemsRequiredStyle = () => {
+    this.items.forEach((item) => {
+      item.classList.add('volutusItem');
+    })
+  }
 
   instantiateManagers = () => {
     this.ScrollManager = new ScrollManager();
@@ -69,12 +86,12 @@ export class InfiniteSlider {
   getSizes = () => {
     this.itemHeight = this.items[0].getBoundingClientRect().height;
     this.blockHeight = this.itemHeight + this.gap;
-    this.containerHeight = (this.itemHeight + this.gap) * this.itemQuantity;
+    this.sliderBlocksTotalHeight = (this.itemHeight + this.gap) * this.itemQuantity;
   };
 
   calculateCenterOffset = () => {
-    this.viewportHeight = window.innerHeight;
-    this.centerOffset = (this.viewportHeight - this.itemHeight) / 2;
+    this.containerHeight = this.container.getBoundingClientRect().height
+    this.centerOffset = (this.containerHeight - this.itemHeight) / 2;
   };
 
   getInitialValue = () => {
@@ -87,10 +104,10 @@ export class InfiniteSlider {
         index * (this.itemHeight + this.gap) + this.centerOffset;
       let adjustedPosition =
         -this.initialValue +
-        ((basePosition - this.scrollY) % this.containerHeight);
+        ((basePosition - this.scrollY) % this.sliderBlocksTotalHeight);
 
       if (adjustedPosition < -this.initialValue) {
-        adjustedPosition += this.containerHeight;
+        adjustedPosition += this.sliderBlocksTotalHeight;
       }
 
       cover.style.top = `${adjustedPosition}px`;
@@ -126,11 +143,11 @@ export class InfiniteSlider {
   };
 
   applySelectedStyle = () => {
-    this.items[this.currentItemIndex].classList.add("selected");
+    this.items[this.currentItemIndex].classList.add("volutusItemSelected");
   };
 
   removeSelectedStyle = () => {
-    this.items[this.previousItemIndex].classList.remove("selected");
-    this.items[this.nextItemIndex].classList.remove("selected");
+    this.items[this.previousItemIndex].classList.remove("volutusItemSelected");
+    this.items[this.nextItemIndex].classList.remove("volutusItemSelected");
   };
 }
