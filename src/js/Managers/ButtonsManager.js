@@ -11,16 +11,6 @@ export class ButtonsManager {
 
   init = () => {
     this.setButtons();
-    this.volutus.debug.ui.add(this, "previousItem").name("Go to previous");
-    this.volutus.debug.ui.add(this, "nextItem").name("Go to next");
-  };
-
-  previousItem = () => {
-    this.volutus.targetScrollY -= this.volutus.blockHeight;
-  };
-
-  nextItem = () => {
-    this.volutus.targetScrollY += this.volutus.blockHeight;
   };
 
   setButtons = () => {
@@ -32,5 +22,13 @@ export class ButtonsManager {
       this.volutus.nextButton.addEventListener("click", () => {
         this.nextItem();
       });
+  };
+
+  previousItem = () => {
+    this.volutus.targetScrollY -= this.volutus.blockHeight;
+  };
+
+  nextItem = () => {
+    this.volutus.targetScrollY += this.volutus.blockHeight;
   };
 }

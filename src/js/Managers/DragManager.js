@@ -4,14 +4,6 @@ export class DragManager {
   constructor() {
     this.volutus = new Volutus();
 
-    this.dragStrength = 0.8;
-    this.volutus.debug.ui
-      .add(this, "dragStrength")
-      .min(0.1)
-      .max(1.5)
-      .step(0.1)
-      .name("Drag strength");
-
     this.init();
 
     console.log("DragManager initialized");
@@ -73,7 +65,7 @@ export class DragManager {
 
   handleDrag = (deltaY) => {
     this.volutus.targetScrollY = Math.round(
-      this.volutus.targetScrollY - deltaY * this.dragStrength
+      this.volutus.targetScrollY - deltaY * this.volutus.dragStrength
     );
   };
 

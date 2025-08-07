@@ -11,9 +11,11 @@ const onLoad = () => {
     items : items,
     previousButton : buttonPrev,
     nextButton : buttonNext,
-    supportScroll: true,
-    supportDrag: true,
-    supportButtons : true
+    gap: '12',
+    supportScroll: false,
+    supportDrag: false,
+    supportButtons : true,
+    displayDebug : true
   });
 };
 

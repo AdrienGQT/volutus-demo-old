@@ -15,7 +15,7 @@ export class Volutus {
 
     instance = this;
 
-    this.debug = new Debug();
+    this.debug = null;
 
     this.container = null;
     this.items = null;
@@ -27,17 +27,19 @@ export class Volutus {
     this.supportDrag = true;
     this.supportButtons = true;
 
+    this.gap = 12;
+
+    this.scrollStrength = 0.2;
+    this.dragStrength = 1.5;
+    this.snapStrength = 0.02;
+
+    this.lerpFactor = 0.05;
+
+    this.displayDebug = false;
+
     this.setValues(parameters);
 
     this.itemQuantity = this.items.length;
-    this.gap = 5;
-    this.lerpFactor = 0.05;
-    this.debug.ui
-      .add(this, "lerpFactor")
-      .min(0.01)
-      .max(0.3)
-      .step(0.01)
-      .name("Lerp factor");
 
     this.currentIndex = 0;
     this.currentItemIndex =
@@ -85,6 +87,7 @@ export class Volutus {
   init = () => {
     this.applyRequiredStyles();
     this.instantiateManagers();
+    this.instantiateDebug()
     this.getSizes();
     this.calculateCenterOffset();
     this.getInitialValue();
@@ -106,6 +109,10 @@ export class Volutus {
       item.classList.add("volutusItem");
     });
   };
+
+  instantiateDebug = () => {
+    if(this.displayDebug) this.debug = new Debug()
+  }
 
   instantiateManagers = () => {
     if (this.supportScroll) this.scrollManager = new ScrollManager();
