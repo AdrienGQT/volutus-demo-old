@@ -1,4 +1,4 @@
-import { Volutus } from "./js/Volutus";
+import { Volutus } from "./volutus/Volutus";
 
 const onLoad = () => {
   const container = document.querySelector('#slider');
