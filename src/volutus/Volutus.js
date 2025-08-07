@@ -1,4 +1,4 @@
-import "./css/Volutus.css";
+import "./css/volutus.css";
 import { ScrollManager } from "./Managers/ScrollManager";
 import { DragManager } from "./Managers/DragManager";
 import { SnapManager } from "./Managers/SnapManager";
