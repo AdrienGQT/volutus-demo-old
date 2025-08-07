@@ -11,7 +11,7 @@ const onLoad = () => {
     items : items,
     previousButton : buttonPrev,
     nextButton : buttonNext,
-    gap: '12',
+    gap: 12,
     supportScroll: false,
     supportDrag: false,
     supportButtons : true,
