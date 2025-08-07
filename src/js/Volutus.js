@@ -41,16 +41,6 @@ export class Volutus {
 
     this.itemQuantity = this.items.length;
 
-    this.currentIndex = 0;
-    this.currentItemIndex =
-      ((this.currentIndex % this.itemQuantity) + this.itemQuantity) %
-      this.itemQuantity;
-    this.previousItemIndex =
-      (((this.currentIndex - 1) % this.itemQuantity) + this.itemQuantity) %
-      this.itemQuantity;
-    this.nextItemIndex =
-      (((this.currentIndex + 1) % this.itemQuantity) + this.itemQuantity) %
-      this.itemQuantity;
     this.targetScrollY = 0;
     this.scrollY = 0;
 
@@ -87,7 +77,7 @@ export class Volutus {
   init = () => {
     this.applyRequiredStyles();
     this.instantiateManagers();
-    this.instantiateDebug()
+    this.instantiateDebug();
     this.getSizes();
     this.calculateCenterOffset();
     this.getInitialValue();
@@ -111,8 +101,8 @@ export class Volutus {
   };
 
   instantiateDebug = () => {
-    if(this.displayDebug) this.debug = new Debug()
-  }
+    if (this.displayDebug) this.debug = new Debug();
+  };
 
   instantiateManagers = () => {
     if (this.supportScroll) this.scrollManager = new ScrollManager();
