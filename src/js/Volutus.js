@@ -20,11 +20,14 @@ export class Volutus {
     this.container = null;
     this.items = null;
 
+    this.previousButton = null;
+    this.nextButton = null;
+
     this.supportScroll = true;
     this.supportDrag = true;
     this.supportButtons = true;
 
-    this.setValues(parameters)
+    this.setValues(parameters);
 
     this.itemQuantity = this.items.length;
     this.gap = 5;
@@ -105,15 +108,9 @@ export class Volutus {
   };
 
   instantiateManagers = () => {
-    if (this.supportScroll) {
-      this.scrollManager = new ScrollManager();
-    }
-    if (this.supportDrag) {
-      this.dragManager = new DragManager();
-    }
-    if (this.supportButtons) {
-      this.buttonsManager = new ButtonsManager();
-    }
+    if (this.supportScroll) this.scrollManager = new ScrollManager();
+    if (this.supportDrag) this.dragManager = new DragManager();
+    if (this.supportButtons) this.buttonsManager = new ButtonsManager();
     this.snapManager = new SnapManager();
   };
 
