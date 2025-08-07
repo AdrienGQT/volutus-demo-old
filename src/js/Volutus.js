@@ -8,7 +8,7 @@ import Debug from "./Utils/Debug";
 let instance = null;
 
 export class Volutus {
-  constructor(container, items) {
+  constructor(container, items, parameters) {
     if (instance) {
       return instance;
     }
@@ -19,6 +19,12 @@ export class Volutus {
 
     this.container = container;
     this.items = items;
+
+    this.supportScroll = true;
+    this.supportDrag = true;
+    this.supportButtons = true;
+
+    this.setValues(parameters);
 
     this.itemQuantity = this.items.length;
     this.gap = 5;
@@ -47,7 +53,7 @@ export class Volutus {
 
     this.init();
 
-    console.log("Volutus well initialized");
+    console.log("Volutus initialized");
   }
 
   init = () => {
@@ -76,10 +82,16 @@ export class Volutus {
   };
 
   instantiateManagers = () => {
-    this.scrollManager = new ScrollManager();
-    this.dragManager = new DragManager();
+    if (this.supportScroll) {
+      this.scrollManager = new ScrollManager();
+    }
+    if (this.supportDrag) {
+      this.dragManager = new DragManager();
+    }
+    if (this.supportButtons) {
+      this.buttonsManager = new ButtonsManager();
+    }
     this.snapManager = new SnapManager();
-    this.buttonsManager = new ButtonsManager();
   };
 
   getSizes = () => {
@@ -150,4 +162,28 @@ export class Volutus {
     this.items[this.previousItemIndex].classList.remove("volutusItemSelected");
     this.items[this.nextItemIndex].classList.remove("volutusItemSelected");
   };
+
+  setValues(values) {
+    if (values === undefined) return;
+
+    for (const key in values) {
+      const newValue = values[key];
+
+      if (newValue === undefined) {
+        console.warn(`Volutus: parameter '${key}' has value of undefined.`);
+        continue;
+      }
+
+      const currentValue = this[key];
+
+      if (currentValue === undefined) {
+        console.warn(
+          `Volutus: '${key}' is not a property of Volutus.`
+        );
+        continue;
+      }
+
+      this[key] = newValue;
+    }
+  }
 }

@@ -4,7 +4,11 @@ const onLoad = () => {
   const container = document.querySelector('#slider');
   const items = document.querySelectorAll('.item')
 
-  const volutus = new Volutus(container, items);
+  const volutus = new Volutus(container, items, {
+    supportScroll: true,
+    supportDrag: true,
+    supportButtons : true
+  });
 };
 
 window.addEventListener("DOMContentLoaded", onLoad);
