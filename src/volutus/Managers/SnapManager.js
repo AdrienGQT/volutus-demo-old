@@ -16,7 +16,7 @@ export class SnapManager {
     this.currentIndex = this.volutus.currentIndex;
 
     this.currentItemPosition =
-      this.currentIndex * this.volutus.blockHeight - this.volutus.blockHeight;
+      this.currentIndex * this.volutus.blockSizes.height - this.volutus.blockSizes.height;
 
     this.currentScrollY = this.volutus.scrollY;
 

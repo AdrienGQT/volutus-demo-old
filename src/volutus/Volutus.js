@@ -46,6 +46,7 @@ export class Volutus {
     this.itemQuantity = this.items.length;
 
     this.itemSizes = {};
+    this.blockSizes = {}
     this.containerSizes = {};
     this.sliderSizes = {};
 
@@ -126,7 +127,7 @@ export class Volutus {
 
   getSizes = () => {
     this.itemSizes.height = this.items[0].getBoundingClientRect().height;
-    this.blockHeight = this.itemSizes.height + this.gap;
+    this.blockSizes.height = this.itemSizes.height + this.gap;
     this.sliderSizes.height =
       (this.itemSizes.height + this.gap) * this.itemQuantity;
   };
