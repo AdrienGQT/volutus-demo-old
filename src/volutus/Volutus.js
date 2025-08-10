@@ -17,6 +17,7 @@ export class Volutus {
 
     this.debug = null;
 
+    // Parameters
     this.container = null;
     this.items = null;
 
@@ -37,9 +38,14 @@ export class Volutus {
 
     this.displayDebug = false;
 
+    // Set values
     this.setValues(parameters);
 
     this.itemQuantity = this.items.length;
+
+    this.itemSizes = {}
+    this.containerSizes = {}
+    this.sliderSizes = {}
 
     this.targetScrollY = 0;
     this.scrollY = 0;
@@ -112,31 +118,31 @@ export class Volutus {
   };
 
   getSizes = () => {
-    this.itemHeight = this.items[0].getBoundingClientRect().height;
-    this.blockHeight = this.itemHeight + this.gap;
-    this.sliderBlocksTotalHeight =
-      (this.itemHeight + this.gap) * this.itemQuantity;
+    this.itemSizes.height = this.items[0].getBoundingClientRect().height;
+    this.blockHeight = this.itemSizes.height + this.gap;
+    this.sliderSizes.height =
+      (this.itemSizes.height + this.gap) * this.itemQuantity;
   };
 
   calculateCenterOffset = () => {
-    this.containerHeight = this.container.getBoundingClientRect().height;
-    this.centerOffset = (this.containerHeight - this.itemHeight) / 2;
+    this.containerSizes.height = this.container.getBoundingClientRect().height;
+    this.centerOffset = (this.containerSizes.height - this.itemSizes.height) / 2;
   };
 
   getInitialValue = () => {
-    this.initialValue = this.itemHeight + this.gap;
+    this.initialValue = this.itemSizes.height + this.gap;
   };
 
   updateItems = () => {
     this.items.forEach((cover, index) => {
       let basePosition =
-        index * (this.itemHeight + this.gap) + this.centerOffset;
+        index * (this.itemSizes.height + this.gap) + this.centerOffset;
       let adjustedPosition =
         -this.initialValue +
-        ((basePosition - this.scrollY) % this.sliderBlocksTotalHeight);
+        ((basePosition - this.scrollY) % this.sliderSizes.height);
 
       if (adjustedPosition < -this.initialValue) {
-        adjustedPosition += this.sliderBlocksTotalHeight;
+        adjustedPosition += this.sliderSizes.height;
       }
 
       cover.style.top = `${adjustedPosition}px`;
@@ -154,7 +160,7 @@ export class Volutus {
 
   computeIndexes = () => {
     this.currentIndex =
-      Math.round(this.scrollY / (this.itemHeight + this.gap)) + 1;
+      Math.round(this.scrollY / (this.itemSizes.height + this.gap)) + 1;
     this.currentItemIndex =
       ((this.currentIndex % this.itemQuantity) + this.itemQuantity) %
       this.itemQuantity;
