@@ -25,10 +25,10 @@ export class ButtonsManager {
   };
 
   previousItem = () => {
-    this.volutus.targetScrollY -= this.volutus.blockHeight;
+    this.volutus.targetScrollY -= this.volutus.blockSizes.height;
   };
 
   nextItem = () => {
-    this.volutus.targetScrollY += this.volutus.blockHeight;
+    this.volutus.targetScrollY += this.volutus.blockSizes.height;
   };
 }

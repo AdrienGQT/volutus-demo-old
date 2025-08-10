@@ -46,7 +46,7 @@ export class Volutus {
     this.itemQuantity = this.items.length;
 
     this.itemSizes = {};
-    this.blockSizes = {}
+    this.blockSizes = {};
     this.containerSizes = {};
     this.sliderSizes = {};
 
@@ -66,6 +66,11 @@ export class Volutus {
 
     if (!values.direction || !values.items || !values.container) {
       console.warn("Volutus: one or multiple required parameters are missing");
+      return;
+    }
+
+    if (values.direction !== "column" && values.direction !== "row") {
+      console.warn("Volutus: direction hasn't been properly set");
       return;
     }
 
@@ -94,7 +99,6 @@ export class Volutus {
     this.instantiateDebug();
     this.getSizes();
     this.calculateCenterOffset();
-    this.getInitialValue();
     this.updateItems();
     this.animate();
   };
@@ -126,36 +130,60 @@ export class Volutus {
   };
 
   getSizes = () => {
-    this.itemSizes.height = this.items[0].getBoundingClientRect().height;
-    this.blockSizes.height = this.itemSizes.height + this.gap;
-    this.sliderSizes.height =
-      (this.itemSizes.height + this.gap) * this.itemQuantity;
+    const { height, width } = this.items[0].getBoundingClientRect();
+    this.itemSizes = {
+      height,
+      width,
+    };
+    this.blockSizes = {
+      height: height + this.gap,
+      width: width + this.gap,
+    };
+    this.sliderSizes = {
+      height: (height + this.gap) * this.itemQuantity,
+      width: (width + this.gap) * this.itemQuantity,
+    };
   };
 
   calculateCenterOffset = () => {
-    this.containerSizes.height = this.container.getBoundingClientRect().height;
-    this.centerOffset =
-      (this.containerSizes.height - this.itemSizes.height) / 2;
-  };
-
-  getInitialValue = () => {
-    this.initialValue = this.itemSizes.height + this.gap;
+    const { height, width } = this.container.getBoundingClientRect();
+    this.containerSizes = { height, width };
+    this.centerOffset = {
+      column: (height - this.itemSizes.height) / 2,
+      row: (width - this.itemSizes.width) / 2,
+    };
   };
 
   updateItems = () => {
-    this.items.forEach((cover, index) => {
-      let basePosition =
-        index * (this.itemSizes.height + this.gap) + this.centerOffset;
-      let adjustedPosition =
-        -this.initialValue +
-        ((basePosition - this.scrollY) % this.sliderSizes.height);
+    const isColumn = this.direction === "column";
+    const config = isColumn
+      ? {
+          itemSize: this.itemSizes.height,
+          blockSize: this.blockSizes.height,
+          sliderSize: this.sliderSizes.height,
+          centerOffset: this.centerOffset.column,
+          transformPrefix: "translateY(",
+        }
+      : {
+          itemSize: this.itemSizes.width,
+          blockSize: this.blockSizes.width,
+          sliderSize: this.sliderSizes.width,
+          centerOffset: this.centerOffset.row,
+          transformPrefix: "translateX(",
+        };
 
-      if (adjustedPosition < -this.initialValue) {
-        adjustedPosition += this.sliderSizes.height;
+    for (let i = 0; i < this.items.length; i++) {
+      const basePosition = i * config.blockSize + config.centerOffset;
+      let adjustedPosition =
+        -config.blockSize + ((basePosition - this.scrollY) % config.sliderSize);
+      if (adjustedPosition < -config.blockSize) {
+        adjustedPosition += config.sliderSize;
       }
 
-      cover.style.top = `${adjustedPosition}px`;
-    });
+      this.items[
+        i
+      ].style.transform = `${config.transformPrefix}${adjustedPosition}px`;
+    }
   };
 
   animate = () => {

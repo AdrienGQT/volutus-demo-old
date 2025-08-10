@@ -8,7 +8,7 @@ const onLoad = () => {
 
   const volutus = new Volutus({
     // Direction
-    direction: "column", // or "row"
+    direction: "row", // or "row"
     // HTML Elements
     container : container,
     items : items,
