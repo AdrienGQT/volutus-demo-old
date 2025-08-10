@@ -18,6 +18,8 @@ export class Volutus {
     this.debug = null;
 
     // Parameters
+    this.direction = null;
+
     this.container = null;
     this.items = null;
 
@@ -43,9 +45,9 @@ export class Volutus {
 
     this.itemQuantity = this.items.length;
 
-    this.itemSizes = {}
-    this.containerSizes = {}
-    this.sliderSizes = {}
+    this.itemSizes = {};
+    this.containerSizes = {};
+    this.sliderSizes = {};
 
     this.targetScrollY = 0;
     this.scrollY = 0;
@@ -58,6 +60,11 @@ export class Volutus {
   setValues(values) {
     if (values === undefined) {
       console.warn("Volutus: no parameter were provided");
+      return;
+    }
+
+    if (!values.direction || !values.items || !values.container) {
+      console.warn("Volutus: one or multiple required parameters are missing");
       return;
     }
 
@@ -126,7 +133,8 @@ export class Volutus {
 
   calculateCenterOffset = () => {
     this.containerSizes.height = this.container.getBoundingClientRect().height;
-    this.centerOffset = (this.containerSizes.height - this.itemSizes.height) / 2;
+    this.centerOffset =
+      (this.containerSizes.height - this.itemSizes.height) / 2;
   };
 
   getInitialValue = () => {

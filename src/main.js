@@ -7,6 +7,8 @@ const onLoad = () => {
   const buttonNext = document.querySelector('#buttonNext');
 
   const volutus = new Volutus({
+    // Direction
+    direction: "column", // or "row"
     // HTML Elements
     container : container,
     items : items,
