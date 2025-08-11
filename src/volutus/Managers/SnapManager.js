@@ -13,18 +13,13 @@ export class SnapManager {
   };
 
   computeSnap = () => {
-    const config = this.volutus.isColumn
-      ? {
-          blockSize: this.volutus.blockSizes.height,
-        }
-      : {
-          blockSize: this.volutus.blockSizes.width,
-        };
+    const blockSize = this.volutus.isColumn
+      ? this.volutus.blockSizes.height
+      : this.volutus.blockSizes.width;
 
     this.currentIndex = this.volutus.currentIndex;
 
-    this.currentItemPosition =
-      this.currentIndex * config.blockSize - config.blockSize;
+    this.currentItemPosition = this.currentIndex * blockSize - blockSize;
 
     this.currentScrollY = this.volutus.scrollY;
 

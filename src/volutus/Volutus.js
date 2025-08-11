@@ -4,6 +4,7 @@ import { DragManager } from "./Managers/DragManager";
 import { SnapManager } from "./Managers/SnapManager";
 import { ButtonsManager } from "./Managers/ButtonsManager";
 import Debug from "./Utils/Debug";
+import { positiveModulo } from "./Utils/positiveModulo";
 
 let instance = null;
 
@@ -197,28 +198,18 @@ export class Volutus {
   };
 
   computeIndexes = () => {
-    const config = this.isColumn
-      ? {
-          itemSize: this.itemSizes.height,
-        }
-      : {
-          itemSize: this.itemSizes.width,
-        };
+    const itemSize = this.isColumn
+      ? this.itemSizes.height
+      : this.itemSizes.width;
 
-    this.currentIndex =
-      Math.round(this.scrollY / (config.itemSize + this.gap)) + 1;
+    this.currentIndex = Math.round(this.scrollY / (itemSize + this.gap)) + 1;
 
-    this.currentItemIndex =
-      ((this.currentIndex % this.itemQuantity) + this.itemQuantity) %
-      this.itemQuantity;
-
-    this.previousItemIndex =
-      (((this.currentIndex - 1) % this.itemQuantity) + this.itemQuantity) %
-      this.itemQuantity;
-
-    this.nextItemIndex =
-      (((this.currentIndex + 1) % this.itemQuantity) + this.itemQuantity) %
-      this.itemQuantity;
+    this.currentItemIndex = positiveModulo(this.currentIndex, this.itemQuantity);
+    this.previousItemIndex = positiveModulo(
+      this.currentIndex - 1,
+      this.itemQuantity
+    );
+    this.nextItemIndex = positiveModulo(this.currentIndex + 1, this.itemQuantity);
   };
 
   refreshStyle = () => {
