@@ -43,6 +43,8 @@ export class Volutus {
     // Set values
     this.setValues(parameters);
 
+    this.isColumn = this.direction === "column";
+
     this.itemQuantity = this.items.length;
 
     this.itemSizes = {};
@@ -155,8 +157,7 @@ export class Volutus {
   };
 
   updateItems = () => {
-    const isColumn = this.direction === "column";
-    const config = isColumn
+    const config = this.isColumn
       ? {
           itemSize: this.itemSizes.height,
           blockSize: this.blockSizes.height,
@@ -196,14 +197,25 @@ export class Volutus {
   };
 
   computeIndexes = () => {
+    const config = this.isColumn
+      ? {
+          itemSize: this.itemSizes.height,
+        }
+      : {
+          itemSize: this.itemSizes.width,
+        };
+
     this.currentIndex =
-      Math.round(this.scrollY / (this.itemSizes.height + this.gap)) + 1;
+      Math.round(this.scrollY / (config.itemSize + this.gap)) + 1;
+
     this.currentItemIndex =
       ((this.currentIndex % this.itemQuantity) + this.itemQuantity) %
       this.itemQuantity;
+
     this.previousItemIndex =
       (((this.currentIndex - 1) % this.itemQuantity) + this.itemQuantity) %
       this.itemQuantity;
+
     this.nextItemIndex =
       (((this.currentIndex + 1) % this.itemQuantity) + this.itemQuantity) %
       this.itemQuantity;
