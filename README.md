@@ -1,20 +1,56 @@
-# Infinite smooth snap scroll
+# Volutus
 
-Infinite Smooth Snap Scroll (ISSC) is a versatile scrolling solution that supports multiple gestures, including scroll, drag, and next/previous buttons. It is designed to work seamlessly on both desktop and mobile devices.
+## Introduction
 
-## Dependencies
+Volutus is a loghtweight JavaScript library designed to create smooth, infinite sliders with minimal setup. it provides seamless scrolling experiences and supports many gestures : mouse wheel navigation, touch/drag interactions and button controls.
 
-While no external libraries are necessary for ISSC to function, the project utilizes lil-gui to allow users to tweak properties during development.
+## Installation
 
-## Authors
+Using a package manager:
 
-Adrien Gasquet
+```bash
+npm i volutus
+```
+```js
+import Volutus from 'volutus'
+```
 
-## Acknowledgments
+## Setup
 
-### Inspiration
-[Siena Film website infinite scroll](https://siena.film/)
+### Minimal
 
-## Contribution
+```js
+const volutus = new Volutus({
+  direction : 'column', // or 'row'
+  container: container,
+  items: items
+})
+```
 
-Contributions are welcome! Please open an issue or submit a pull request if you have any suggestions or improvements.
+### Custom example
+
+```js
+  const volutus = new Volutus({
+    // Direction
+    direction: "row", // or "row"
+    // HTML Elements
+    container : container,
+    items : items,
+    previousButton : buttonPrev,
+    nextButton : buttonNext,
+    // Features
+    supportScroll: true,
+    supportDrag: true,
+    supportButtons : true,
+    // Tweaks
+    gap: 12,
+    scrollStrength: 0.2,
+    dragStrength: 1.5,
+    snapStrength: 0.02,
+    lerpFactor: 0.05
+  });
+```
+
+## Settings
+
+## Methods
