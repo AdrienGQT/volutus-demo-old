@@ -22,16 +22,25 @@ export class DragManager {
 
   setDraggableForDesktop = () => {
     this.volutus.container.addEventListener("mousedown", () => {
-      this.volutus.container.addEventListener("mousemove", this.handleMouseMove);
+      this.volutus.container.addEventListener(
+        "mousemove",
+        this.handleMouseMove
+      );
     });
 
     this.volutus.container.addEventListener("mouseup", () => {
-      this.volutus.container.removeEventListener("mousemove", this.handleMouseMove);
+      this.volutus.container.removeEventListener(
+        "mousemove",
+        this.handleMouseMove
+      );
     });
   };
 
   setDraggableForMobile = () => {
-    this.volutus.container.addEventListener("touchstart", this.handleTouchStart);
+    this.volutus.container.addEventListener(
+      "touchstart",
+      this.handleTouchStart
+    );
     this.volutus.container.addEventListener("touchmove", this.handleTouchMove, {
       passive: false,
     });
@@ -40,33 +49,47 @@ export class DragManager {
 
   handleMouseMove = (e) => {
     e.preventDefault;
-    this.handleDrag(e.movementY);
+    this.handleDrag(e.movementX, e.movementY);
   };
 
   handleTouchStart = (e) => {
-    this.touchStartY = e.touches[0].clientY;
-    this.lastTouchY = this.touchStartY;
+    const touch = e.touches[0];
+    if (!touch) return;
+
+    this.touchStartX = this.lastTouchX = touch.clientX;
+    this.touchStartY = this.lastTouchY = touch.clientY;
   };
 
   handleTouchMove = (e) => {
     e.preventDefault();
 
-    const currentTouchY = e.touches[0].clientY;
+    const touch = e.touches[0];
+    if (!touch) return;
+
+    const { clientX: currentTouchX, clientY: currentTouchY } = touch;
+    const deltaX = this.lastTouchX - currentTouchX;
     const deltaY = this.lastTouchY - currentTouchY;
+    this.lastTouchX = currentTouchX;
     this.lastTouchY = currentTouchY;
 
-    this.handleDrag(-deltaY);
+    this.handleDrag(-deltaX, -deltaY);
   };
 
   handleTouchEnd = () => {
-    this.touchStartY = 0;
-    this.lastTouchY = 0;
+    this.touchStartX = this.lastTouchX = 0;
+    this.touchStartY = this.lastTouchY = 0;
   };
 
-  handleDrag = (deltaY) => {
-    this.volutus.targetScrollY = Math.round(
-      this.volutus.targetScrollY - deltaY * this.volutus.dragStrength
-    );
+  handleDrag = (deltaX, deltaY) => {
+    if (this.volutus.isColumn) {
+      this.volutus.targetScrollY = Math.round(
+        this.volutus.targetScrollY - deltaY * this.volutus.dragStrength
+      );
+    } else {
+      this.volutus.targetScrollX = Math.round(
+        this.volutus.targetScrollX - deltaX * this.volutus.dragStrength
+      );
+    }
   };
 
   setDragCursor = () => {

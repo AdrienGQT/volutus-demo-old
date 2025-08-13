@@ -22,15 +22,21 @@ export class SnapManager {
     this.currentItemPosition = this.currentIndex * blockSize - blockSize;
 
     this.currentScrollY = this.volutus.scrollY;
+    this.currentScrollX = this.volutus.scrollX;
 
-    this.deltaToCurrentItemPosition =
-      this.currentScrollY - this.currentItemPosition;
+    this.deltaToCurrentItemPosition = this.volutus.isColumn
+      ? this.currentScrollY - this.currentItemPosition
+      : this.currentScrollX - this.currentItemPosition;
 
     this.currentSnap =
       this.deltaToCurrentItemPosition * this.volutus.snapStrength;
   };
 
   applySnap = () => {
-    this.volutus.targetScrollY -= this.currentSnap;
+    if (this.volutus.isColumn) {
+      this.volutus.targetScrollY -= this.currentSnap;
+    } else {
+      this.volutus.targetScrollX -= this.currentSnap;
+    }
   };
 }

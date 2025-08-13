@@ -54,7 +54,9 @@ export class Volutus {
     this.sliderSizes = {};
 
     this.targetScrollY = 0;
+    this.targetScrollX = 0;
     this.scrollY = 0;
+    this.scrollX = 0;
 
     this.animate = this.animate.bind(this);
 
@@ -177,7 +179,7 @@ export class Volutus {
     for (let i = 0; i < this.items.length; i++) {
       const basePosition = i * config.blockSize + config.centerOffset;
       let adjustedPosition =
-        -config.blockSize + ((basePosition - this.scrollY) % config.sliderSize);
+        -config.blockSize + (((basePosition - this.scrollY) * this.isColumn + (basePosition - this.scrollX) * !this.isColumn) % config.sliderSize);
       if (adjustedPosition < -config.blockSize) {
         adjustedPosition += config.sliderSize;
       }
@@ -190,6 +192,7 @@ export class Volutus {
 
   animate = () => {
     this.scrollY += (this.targetScrollY - this.scrollY) * this.lerpFactor;
+    this.scrollX += (this.targetScrollX - this.scrollX) * this.lerpFactor;
     this.updateItems();
     this.computeIndexes();
     this.snapManager.snap();
@@ -202,7 +205,7 @@ export class Volutus {
       ? this.itemSizes.height
       : this.itemSizes.width;
 
-    this.currentIndex = Math.round(this.scrollY / (itemSize + this.gap)) + 1;
+    this.currentIndex = Math.round(((this.scrollY * this.isColumn) + (this.scrollX * !this.isColumn)) / (itemSize + this.gap)) + 1;
 
     this.currentItemIndex = positiveModulo(this.currentIndex, this.itemQuantity);
     this.previousItemIndex = positiveModulo(

@@ -15,9 +15,17 @@ export class ScrollManager {
 
   setEventListener = () => {
     window.addEventListener("wheel", (e) => {
-      this.volutus.targetScrollY = Math.round(
-        this.volutus.targetScrollY - e.wheelDeltaY * this.volutus.scrollStrength
-      );
+      if (this.volutus.isColumn) {
+        this.volutus.targetScrollY = Math.round(
+          this.volutus.targetScrollY -
+            e.wheelDeltaY * this.volutus.scrollStrength
+        );
+      } else {
+        this.volutus.targetScrollX = Math.round(
+          this.volutus.targetScrollX -
+            (e.wheelDeltaX + e.wheelDeltaY) * this.volutus.scrollStrength
+        );
+      }
     });
   };
 }
