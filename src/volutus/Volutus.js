@@ -210,6 +210,7 @@ export class Volutus {
       this.itemQuantity
     );
     this.nextItemIndex = positiveModulo(this.currentIndex + 1, this.itemQuantity);
+    this.currentItem = this.items[this.currentItemIndex]
   };
 
   refreshStyle = () => {
