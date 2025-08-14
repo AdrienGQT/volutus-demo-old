@@ -59,21 +59,21 @@ const volutus = new Volutus({
 
 ## Settings
 
-| Option                 | Type                       | Default                                            | Description                                                                              |
-|------------------------|----------------------------|----------------------------------------------------|------------------------------------------------------------------------------------------|
-| `direction`            | `string`                   | `undefined`                                        | The direction of the scroll. Either 'column' or 'row'.                                   |
-| `container`            | `HTMLElement`              | `undefined`                                        | The element that will be used as the scroll container.                                   |
-| `items`                | `NodeList`                 | `undefined`                                        | A list that contains the elements that will be scrolled, usually `container`'s children. |
-| `previousButton`       | `HTMLElement`              | `undefined`                                        | The element that will be used as the previous item navigation button.                    |
-| `nextButton`           | `HTMLElement`              | `undefined`                                        | The element that will be used as the next item navigation button.                        |
-| `gap`                  | `number`                   | `12`                                               | The space between the items.                                                             |
-| `scrollStrength`       | `number`                   | `0.2`                                              | A value that sets the strength of the mouse wheel on the slider.                         |
-| `dragStrength`         | `number`                   | `1.5`                                              | A value that sets the strength of the touch/drag on the slider.                          |
-| `snapStrength`         | `number`                   | `0.02`                                             | A value that sets the strength of the snap effect on the slider.                         |
-| `lerpFactor`           | `number`                   | `0.05`                                             | A value that determines the interpolation weight in the scroll lerp.                     |
-| `supportScroll`        | `boolean`                  | `true`                                             | Wether or not to support mouse wheel navigation.                                         |
-| `supportDrag`          | `boolean`                  | `true`                                             | Wether or not to support touch/drag interactions.                                        |
-| `supportButtons`       | `boolean`                  | `true`                                             | Wether or not to support button controls.                                                |
+| Option                 | Type                       | Default                                            | Description                                                                                               |
+|------------------------|----------------------------|----------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
+| `direction`            | `string`                   | `undefined`                                        | The direction of the scroll. Either 'column' or 'row'.                                                    |
+| `container`            | `HTMLElement`              | `undefined`                                        | The element that will be used as the scroll container.                                                    |
+| `items`                | `NodeList`                 | `undefined`                                        | A list that contains the elements that will be scrolled, usually `container`'s children.                  |
+| `previousButton`       | `HTMLElement`              | `undefined`                                        | The element that will be used as the previous item navigation button.                                     |
+| `nextButton`           | `HTMLElement`              | `undefined`                                        | The element that will be used as the next item navigation button.                                         |
+| `gap`                  | `number`                   | `12`                                               | The space between the items.                                                                              |
+| `scrollStrength`       | `number`                   | `0.2`                                              | A value that sets the strength of the mouse wheel on the slider. (Min: 0.01, Max: 1.0, Step: 0.01)        |
+| `dragStrength`         | `number`                   | `1.5`                                              | A value that sets the strength of the touch/drag on the slider. (Min: 0.1, Max: 1.5, Step: 0.1)           |
+| `snapStrength`         | `number`                   | `0.02`                                             | A value that sets the strength of the snap effect on the slider. (Min: 0.001, Max: 0.15, Step: 0.002)     |
+| `lerpFactor`           | `number`                   | `0.05`                                             | A value that determines the interpolation weight in the scroll lerp. (Min: 0.01, Max: 0.3, Step: 0.01)    |
+| `supportScroll`        | `boolean`                  | `true`                                             | Wether or not to support mouse wheel navigation.                                                          |
+| `supportDrag`          | `boolean`                  | `true`                                             | Wether or not to support touch/drag interactions.                                                         |
+| `supportButtons`       | `boolean`                  | `true`                                             | Wether or not to support button controls.                                                                 |
 
 <br>
 
