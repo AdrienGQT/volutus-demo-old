@@ -1,4 +1,5 @@
-import { Volutus } from "./volutus/Volutus";
+// import { Volutus } from "./volutus/Volutus";
+import {Volutus} from 'volutus';
 
 const onLoad = () => {
   const container = document.querySelector('#slider');
@@ -24,8 +25,6 @@ const onLoad = () => {
     supportScroll: true,
     supportDrag: true,
     supportButtons : true,
-    // Debug
-    displayDebug : true
   });
 };
 
